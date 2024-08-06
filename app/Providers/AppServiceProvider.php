@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use PragmaRX\Google2FALaravel\ServiceProvider as Google2FAServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Registra el proveedor de servicios de Google2FA
+        $this->app->register(Google2FAServiceProvider::class);
     }
 
     /**

@@ -1,27 +1,24 @@
 <x-bootstrap></x-bootstrap>
 
 <head>
-    <title>Register</title>
+    <title>Registro</title>
     <x-head></x-head>
     <style>
-        .vh-200 {
+        .vh-100 {
             height: 100vh;
-            background-color: #56C;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
+            background-color: #f8f9fa;
         }
 
         .card {
             border-radius: 1rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            background-color: #ffffff;
+            max-width: 600px;
+            width: 100%;
+            padding: 2rem;
         }
 
         .btn-custom {
@@ -44,55 +41,60 @@
             border-color: #ff6219;
             box-shadow: 0 0 5px rgba(255, 98, 25, 0.5);
         }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
     </style>
 </head>
 
 <body>
-    <section class="vh-200">
+    <section class="vh-100">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col col-xl-10">
-                    <div class="card text-center align-items-center">
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                            <div class="card-body p-4 p-lg-5 text-black">
-                                <h2 class="fw-bold mb-5">Sign up now</h2>
-                                <form method="post" action="{{ url('/register') }}">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-                                                <input type="text" id="form3Example1" class="form-control" name="name" required />
-                                                <label class="form-label" for="form3Example1">First name</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-                                                <input type="text" id="form3Example2" class="form-control" name="lastname" required />
-                                                <label class="form-label" for="form3Example2">Last name</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                <div class="col col-xl-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="fw-bold mb-4 text-center">Regístrate ahora</h2>
+                            <form method="post" action="{{ url('/register') }}">
+                                @csrf
 
-                                    <div class="form-outline mb-4">
-                                        <input type="email" id="form3Example3" class="form-control" name="email" required />
-                                        <label class="form-label" for="form3Example3">Email address</label>
-                                    </div>
+                                <div class="form-outline mb-4">
+                                    <input type="text" id="form3Example1" class="form-control form-control-lg" name="name" required />
+                                    <label class="form-label" for="form3Example1">Nombre</label>
+                                </div>
 
-                                    <div class="form-outline mb-4">
-                                        <input type="password" id="form3Example4" class="form-control" name="password" required />
-                                        <label class="form-label" for="form3Example4">Password</label>
-                                    </div>
+                                <div class="form-outline mb-4">
+                                    <input type="text" id="form3Example2" class="form-control form-control-lg" name="lastname" required />
+                                    <label class="form-label" for="form3Example2">Apellido</label>
+                                </div>
 
-                                    <button type="submit" class="btn btn-custom btn-lg btn-block">
-                                        Sign up
-                                    </button>
-                                    <button type="button" onclick="location.href='{{ url('/') }}'" class="btn btn-custom btn-lg btn-block">
-                                        Back
-                                    </button>
-                                </form>
+                                <div class="form-outline mb-4">
+                                    <input type="email" id="form3Example3" class="form-control form-control-lg" name="email" required />
+                                    <label class="form-label" for="form3Example3">Correo electrónico</label>
+                                </div>
 
-                                <h2 class="titulo">{{ session('status') }}</h2>
-                            </div>
+                                <div class="form-outline mb-4">
+                                    <input type="password" id="form3Example4" class="form-control form-control-lg" name="password" required />
+                                    <label class="form-label" for="form3Example4">Contraseña</label>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-custom btn-lg btn-block mb-2">Registrarse</button>
+                                    <button type="button" onclick="location.href='{{ url('/') }}'" class="btn btn-secondary btn-lg btn-block">Volver</button>
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    <h2 class="titulo">{{ session('status') }}</h2>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

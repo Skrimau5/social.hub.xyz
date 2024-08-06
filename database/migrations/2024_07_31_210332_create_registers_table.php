@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('password');
             $table->string('token_login')->nullable();
+            $table->string('google2fa_secret');
             $table->timestamps();
         });
     }
