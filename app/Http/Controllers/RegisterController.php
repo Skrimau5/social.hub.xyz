@@ -15,49 +15,52 @@ class RegisterController extends Controller
     {
         session_start();
 
-        if ($_SESSION != null) {
+        if (session('dataUsers') != null) {
             return redirect('/schedules');
         }
         return view('form');
     }
 
-    public function enviarCodigo2FA($correo, $codigo2fa)
+    public function enviarCodigo2FA($email, $codigo2fa)
     {
         try {
-            Mail::to($correo)->send(new Google2faSecretMail($codigo2fa));
+            Mail::to($email)->send(new Google2faSecretMail($codigo2fa));
             return true; // Éxito al enviar el correo
         } catch (\Exception $e) {
+            \Log::error('Error al enviar el correo: ' . $e->getMessage());
             return false; // Error al enviar el correo
         }
     }
+    
 
-    public function store(Request $request)
-    {
-        $message = "¡Guardado con éxito!";
+ 
+            public function store(Request $request)
+        {
+            $message = "¡Guardado con éxito!";
 
-        $google2fa = app('pragmarx.google2fa');
-        $dataUsers = $request->except('_token');
-        $dataUsers['google2fa_secret'] = $google2fa->generateSecretKey();
-        $request->session('dataUsers', $dataUsers);
+            $google2fa = app('pragmarx.google2fa');
+            $dataUsers = $request->except('_token');
+            $dataUsers['google2fa_secret'] = $google2fa->generateSecretKey();
+            session(['dataUsers' => $dataUsers]); // Almacenar los datos en la sesión
 
-        $twoFa = new Google2FA();
-        $key = $twoFa->generateSecretKey();
-        $QR_Image = $twoFa->getQRCodeInline(
-            config('app.name'),
-            $dataUsers['email'],
-            $dataUsers['google2fa_secret']
-        );
+            $twoFa = new Google2FA();
+            $key = $twoFa->generateSecretKey();
+            $QR_Image = $twoFa->getQRCodeInline(
+                config('app.name'),
+                $dataUsers['email'],
+                $dataUsers['google2fa_secret']
+            );
 
-        Register::insert($dataUsers);
+            // Guardar el usuario en la base de datos
+            Register::insert($dataUsers);
 
-        $this->enviarCodigo2FA($dataUsers['email'], $dataUsers['google2fa_secret']);
+            // Enviar el código 2FA por correo
+            $this->enviarCodigo2FA($dataUsers['email'], $dataUsers['google2fa_secret']);
 
-        return view('google2fa.register', ['QR_Image' => $QR_Image, 'secret' => $dataUsers['google2fa_secret']]);
-    }
+            // Mostrar el código QR al usuario
+            return view('google2fa.register', ['QR_Image' => $QR_Image, 'secret' => $dataUsers['google2fa_secret']]);
+        }
 
-    public function completeRegistration()
-    {
-        $session = session()->get('key');
-        return view('google2fa.index', $session);
-    }
 }
+
+    

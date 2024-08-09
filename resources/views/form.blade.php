@@ -91,9 +91,11 @@
                                     <button type="button" onclick="location.href='{{ url('/') }}'" class="btn btn-secondary btn-lg btn-block">Volver</button>
                                 </div>
 
-                                <div class="text-center mt-3">
-                                    <h2 class="titulo">{{ session('status') }}</h2>
-                                </div>
+                                @if (session('status'))
+                                    <div class="alert alert-success text-center mt-3">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
                             </form>
                         </div>
                     </div>
